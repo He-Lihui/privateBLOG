@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import React, {useState} from 'react'
-import {Row, Col, List, Button} from 'antd'
+import { Button } from 'antd'
+import {Row, Col, List} from 'antd'
 import {
   BookTwoTone,
   DashboardTwoTone
@@ -9,8 +10,8 @@ import {
 import Header from '../components/Header'
 import Author from '../components/Author'
 import Footer from '../components/Footer'
-export default function Home() {
-  
+
+const MyList = () => {
   const [mylist, setMylist] = useState(
     [
       {title:'文章例子标题1',context:'考研的第一步就是确定目标专业，因为不同专业的考试科目有区别。不清楚考试科目内容，盲目复习容易浪费时间。今天给大家分享一下英语一及英语二的区别：'},
@@ -54,3 +55,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default MyList
