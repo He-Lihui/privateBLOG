@@ -4,6 +4,9 @@ if(typeof require !== 'undefined'){
 }
 module.exports = {
   reactStrictMode: true,
-  withCss
+  withCss,
+  images: {
+    domains: ['images.pexels.com'],
+  }
 }
 

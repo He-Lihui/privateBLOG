@@ -3,7 +3,7 @@ import React from 'react'
 import {Row,Col, Menu, Icon} from 'antd'
 import {
     SmileOutlined,
-    VideoCameraAddOutlined,
+    HeartOutlined,
     HomeOutlined
 } from '@ant-design/icons'
 const Header = () => (
@@ -21,9 +21,9 @@ const Header = () => (
                     首页
                 </Menu.Item>
                 <Menu.Item key="video">
-                <VideoCameraAddOutlined className="header-Icon"/>
-                    视频
-                </Menu.Item>
+                <HeartOutlined className="header-Icon"/>
+                    文章
+                </Menu.Item> 
                 <Menu.Item key="life">
                     <Icon type="smile"/>
                     <SmileOutlined className="header-Icon"/>
