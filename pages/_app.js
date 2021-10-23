@@ -7,6 +7,7 @@ import '../static/style/pages/index.css'
 import '../static/style/components/author.css'
 import '../static/style/components/footer.css'
 import '../static/style/components/advert.css'
+import 'markdown-navbar/dist/navbar.css';
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />
