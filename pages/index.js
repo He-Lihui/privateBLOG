@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import React, {useState} from 'react'
 import {Row, Col, List, Button} from 'antd'
 import {
@@ -10,16 +11,12 @@ import Header from '../components/Header'
 import Author from '../components/Author'
 import Footer from '../components/Footer'
 import Advert from '../components/Advert'
-export default function Home() {
+import axios from 'axios'
+
+ const Home = (list)=> {
   
-  const [mylist, setMylist] = useState(
-    [
-      {title:'文章例子标题1',context:'考研的第一步就是确定目标专业，因为不同专业的考试科目有区别。不清楚考试科目内容，盲目复习容易浪费时间。今天给大家分享一下英语一及英语二的区别：'},
-      {title:'这是第二个测试标题',context:'考研的第一步就是确定目标专业，因为不同专业的考试科目有区别。不清楚考试科目内容，盲目复习容易浪费时间。今天给大家分享一下英语一及英语二的区别：'},
-      {title:'哎呀好烦标题应该叫什么才好',context:'考研的第一步就是确定目标专业，因为不同专业的考试科目有区别。不清楚考试科目内容，盲目复习容易浪费时间。今天给大家分享一下英语一及英语二的区别：'},
-      {title:'我是在不知道例子的标题该怎么写',context:'考研的第一步就是确定目标专业，因为不同专业的考试科目有区别。不清楚考试科目内容，盲目复习容易浪费时间。今天给大家分享一下英语一及英语二的区别：'},
-    ]
-  )
+  const [mylist, setMylist] = useState(list.data)
+  console.log(list.data)
   return (
     <div>
       <Head>
@@ -36,12 +33,16 @@ export default function Home() {
             dataSource={mylist}
             renderItem={item => (
               <List.Item>
-                <div className="list-title">{item.title}</div>
-                <div className="list-icon">
-                  <p><DashboardTwoTone />  2019-06-28</p>
-                  <p><BookTwoTone />  文章类别</p>
+                <div className="list-title">
+                  <Link href={{pathname:'/detailed', query:{id:item.id}} }>
+                   <a>{item.title}</a> 
+                  </Link>           
                 </div>
-                <div className="list-context">{item.context}</div>
+                <div className="list-icon">
+                  <p><DashboardTwoTone />  {item.addtime}</p>
+                  <p><BookTwoTone /> {item.typename}</p>
+                </div>
+                <div className="list-context">{item.introduce}</div>
               </List.Item>
             )}
           />
@@ -54,4 +55,19 @@ export default function Home() {
       <Footer></Footer>
     </div>
   )
+
+
 }
+Home.getInitialProps = async () => {
+
+  const promise = new Promise((reslove) => {
+      axios('http://127.0.0.1:7001/default/getArticleList')
+      .then( res => {
+        console.log('res',res.data)
+        reslove(res.data)
+      })
+  })
+  return await promise
+}
+
+export default Home

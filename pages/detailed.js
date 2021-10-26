@@ -10,6 +10,7 @@ import Footer from '../components/Footer'
 import BreadcrumbItem from 'antd/lib/breadcrumb/BreadcrumbItem'
 import ReactMarkdown from 'react-markdown'
 import MarkNav from 'markdown-navbar';
+import Axios from 'axios'
 
 const Detailed = () => {
   let markdown = '# P01:课程介绍和环境搭建\n' +
@@ -118,6 +119,17 @@ const Detailed = () => {
 
   )
 }
+Detailed.getInitialProps = async (context) => {
+  let id = context.query.id
+  const promise = new Promise((reslove) => {
+    Axios('http://127.0.0.1:7001/default/getArticleById')
+     .then((res) => {
+       console.log(res)
+       reslove(res.data.data[0])
+     })
+  })
 
+  return await promise
+}
 
 export default Detailed
