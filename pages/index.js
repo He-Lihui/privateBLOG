@@ -12,7 +12,7 @@ import Author from '../components/Author'
 import Footer from '../components/Footer'
 import Advert from '../components/Advert'
 import axios from 'axios'
-
+import servicePath from '../config/apiUrl'
  const Home = (list)=> {
   
   const [mylist, setMylist] = useState(list.data)
@@ -61,7 +61,7 @@ import axios from 'axios'
 Home.getInitialProps = async () => {
 
   const promise = new Promise((reslove) => {
-      axios('http://127.0.0.1:7001/default/getArticleList')
+      axios(servicePath.getArticleList)
       .then( res => {
         console.log('res',res.data)
         reslove(res.data)

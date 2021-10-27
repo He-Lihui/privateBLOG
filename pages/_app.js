@@ -8,7 +8,7 @@ import '../static/style/components/author.css'
 import '../static/style/components/footer.css'
 import '../static/style/components/advert.css'
 import 'markdown-navbar/dist/navbar.css';
-
+import 'highlight.js/styles/monokai-sublime.css'
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />
 }
