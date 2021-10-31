@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import { Button } from 'antd'
 import {Row, Col, List, Breadcrumb} from 'antd'
 import {
@@ -11,17 +11,34 @@ import {
 import Header from '../components/Header'
 import Author from '../components/Author'
 import Footer from '../components/Footer'
+import marked from 'marked'
+import hljs from 'highlight.js'
 import BreadcrumbItem from 'antd/lib/breadcrumb/BreadcrumbItem'
 
-const MyList = () => {
-  const [mylist, setMylist] = useState(
-    [
-      {title:'文章例子标题1',context:'考研的第一步就是确定目标专业，因为不同专业的考试科目有区别。不清楚考试科目内容，盲目复习容易浪费时间。今天给大家分享一下英语一及英语二的区别：'},
-      {title:'这是第二个测试标题',context:'考研的第一步就是确定目标专业，因为不同专业的考试科目有区别。不清楚考试科目内容，盲目复习容易浪费时间。今天给大家分享一下英语一及英语二的区别：'},
-      {title:'哎呀好烦标题应该叫什么才好',context:'考研的第一步就是确定目标专业，因为不同专业的考试科目有区别。不清楚考试科目内容，盲目复习容易浪费时间。今天给大家分享一下英语一及英语二的区别：'},
-      {title:'我是在不知道例子的标题该怎么写',context:'考研的第一步就是确定目标专业，因为不同专业的考试科目有区别。不清楚考试科目内容，盲目复习容易浪费时间。今天给大家分享一下英语一及英语二的区别：'},
-    ]
-  )
+import axios from 'axios'
+import servicePath from '../config/apiUrl'
+import link from 'next/link'
+
+
+const MyList = (list) => {
+  const [mylist, setMylist] = useState(list.data)
+  useEffect(() => {
+    setMylist(list.data)
+  })
+
+  const renderer = new marked.Renderer()
+  marked.setOptions({
+    renderer: renderer,
+    gfm: true,
+    pedantic: false,
+    sanitize: false,
+    tables: true,
+    breaks: false,
+    smartLists: true,
+    highlight: function(code) {
+      return hljs.highlightAuto(code).value
+    }
+  })
   return (
     <div>
       <Head>
@@ -50,12 +67,18 @@ const MyList = () => {
         dataSource={mylist}
         renderItem={item => (
           <List.Item>
-            <div className="list-title">{item.title}</div>
-            <div className="list-icon">
-              <p><DashboardTwoTone />  2019-06-28</p>
-              <p><BookTwoTone />  文章类别</p>
+            <div className="list-title">
+              <Link href={{pathname:'/detailed',query:{id:item.id}}}>
+                <a>{item.title}</a>
+              </Link>
             </div>
-            <div className="list-context">{item.context}</div>  
+            <div className="list-icon">
+              <p><DashboardTwoTone />{item.addTime}</p>
+              <p><BookTwoTone />  {item.typename}</p>
+            </div>
+            <div className="list-context"
+              dangerouslySetInnerHTML={{__html:marked(item.introduce)}}
+            ></div>  
           </List.Item>
     )}
   />    
@@ -68,6 +91,18 @@ const MyList = () => {
     <Footer></Footer>
     </div>
   )
+}
+
+MyList.getInitialProps = async (context) => {
+  let id = context.query.id
+  const promise = new Promise((reslove) => {
+      axios(servicePath.getListById + id)
+      .then( res => {
+        console.log('res',res.data)
+        reslove(res.data)
+      })
+  })
+  return await promise
 }
 
 export default MyList
