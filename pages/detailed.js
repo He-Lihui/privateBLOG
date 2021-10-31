@@ -61,22 +61,22 @@ const Detailed = (props) => {
                   </Link>
                 </BreadcrumbItem>
                 <BreadcrumbItem>
-                  <Link href="/">
-                    <a>文章名xxx</a>
+                  <Link href="#">
+                    <a> {props.title}</a>
                   </Link>
                 </BreadcrumbItem>
               </Breadcrumb>
             </div>
             <div>
               <div className="detailed-title">
-                甜沁的博客文章--title
+               {props.title}
               </div>
               <div className="list-icon center">
                 <span>
-                  <CalendarTwoTone />2021-10-20
+                  <CalendarTwoTone />{props.addTime}
                 </span>
                 <span>
-                  <StarTwoTone />类别
+                  <StarTwoTone />{props.typename}
                 </span>
               </div>
               <div className="detailed-content"
