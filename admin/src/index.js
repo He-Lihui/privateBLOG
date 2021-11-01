@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-
+import Main from './pages/Main'
+import '@arco-design/web-react/dist/css/arco.css';
 
 ReactDOM.render(
-    <App />,
+    <Main />,
   document.getElementById('root')
 );
 
