@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Layout, Menu, Breadcrumb, Button, Message } from '@arco-design/web-react';
 import { IconHome, IconCalendar, IconCaretRight, IconCaretLeft } from '@arco-design/web-react/icon';
 import '../static/css/adminIndex.css'
@@ -8,13 +8,14 @@ const MenuItem = Menu.Item;
 const SubMenu = Menu.SubMenu;
 
 const Sider = Layout.Sider;
-const Header = Layout.Header;
 const Footer = Layout.Footer;
 const Content = Layout.Content;
 
 function AdminIndex () {
-  const [collapsed,setCollapsed] = useState(false)
-
+  const username =  localStorage.getItem('userName')
+  const [collapsed,setCollapsed] = useState(false);
+  const [userName, setUserName] = useState(username);
+  
   const handleCollapsed = (collapsed) => {
     setCollapsed(collapsed)
   };
@@ -26,7 +27,9 @@ function AdminIndex () {
                trigger={collapsed ? <IconCaretRight /> : <IconCaretLeft />}
                breakpoint='xl'
         >
-          <div className='logo' />
+          <div className='logo'>
+            {userName}
+          </div>
           <Menu
             defaultOpenKeys={['1']}
             defaultSelectedKeys={['0_3']}

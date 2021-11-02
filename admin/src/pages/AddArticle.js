@@ -1,15 +1,18 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import marked from "marked";
 import '../static/css/addArticle.css'
-import { Input, Select, Grid, Button, DatePicker, Space } from "@arco-design/web-react";
+import { Input, Select, Grid, Button, DatePicker, Space, Notification } from "@arco-design/web-react";
 import { IconBytedanceColor } from '@arco-design/web-react/icon';
+import Axios from "axios";
+import servicePath from "../config/apiUrl";
+
 
 const Row = Grid.Row;
 const Col = Grid.Col;
 const Option = Select.Option
 const TextArea = Input.TextArea
 
-function AddArticle () {
+function AddArticle (props) {
 
     const [articleId,setArticleId] = useState(0)  // 文章的ID，如果是0说明是新增加，如果不是0，说明是修改
     const [articleTitle,setArticleTitle] = useState('')   //文章标题
@@ -21,7 +24,7 @@ function AddArticle () {
     const [updateDate,setUpdateDate] = useState() //修改日志的日期
     const [typeInfo ,setTypeInfo] = useState([]) // 文章类别信息
     const [selectedType,setSelectType] = useState(1) //选择的文章类别
-
+    console.log("--->",typeInfo)
     marked.setOptions({
         renderer: marked.Renderer(),
         gfm: true,
@@ -33,6 +36,10 @@ function AddArticle () {
         smartypants: false
     })
 
+    useEffect(()=> {
+        getTypeInfo()
+    },[])
+
     const changeContent = (value) => {
         setArticleContent(value)
         let html = marked(value)
@@ -42,6 +49,23 @@ function AddArticle () {
         setIntroducemd(value)
         let html = marked(value)
         setIntroducehtml(html)
+    }
+    const getTypeInfo = () => {
+        Axios({
+            method:'GET',
+            url:servicePath.getTypeInfo,
+            withCredentials:true, 
+        }).then(
+            res =>{
+                if(res.data.data ==="没有登录或登录失效啦"){
+                Notification.warning({ title: 'Warning', content: res.data.data })
+                localStorage.removeItem('openId')
+                localStorage.removeItem('username')
+                props.history.push('/login')
+            } else {
+                setTypeInfo(res.data.data)
+            }
+        })
     }
     return (
         <div>
@@ -56,8 +80,14 @@ function AddArticle () {
                             />
                         </Col>
                         <Col span={4}>
-                            <Select defaultValue="1" size="large">
-                                <Option value="1">日常学习</Option>
+                            <Select defaultValue={selectedType} size="large">
+                                {
+                                    typeInfo.map( (item, index) => {
+                                        return (
+                                            <Option key={index} value={item.id}>{item.typename}</Option>
+                                        )
+                                    })
+                                }
                             </Select>
                         </Col>
                     </Row>
