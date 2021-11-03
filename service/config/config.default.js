@@ -44,14 +44,18 @@ module.exports = appInfo => {
   };
   config.security = {
     csrf:{
-      enable: false
+      enable: false,
+      domainWhiteList: [ '*' ]
     },
     domainWhiteList:['*'],
   }
   config.cors = {
-    origin: '*',
+    credentials: true, // 允许cookie跨域
     allowMethods: 'GET, HEAD, PUT, POST, DELETE, PATCH, OPTIONS, UPDATE'
   }
+  // config.middleware = [
+  //   'adminCheck'
+  // ];
 
   return {
     ...config,

@@ -1,20 +1,22 @@
-import React, {useState} from 'react'
-import { Layout, Menu, Breadcrumb, Button, Message } from '@arco-design/web-react';
+import React, {useState, useEffect} from 'react'
+import { Layout, Menu, Breadcrumb, Button, Message,Grid, Space } from '@arco-design/web-react';
 import { IconHome, IconCalendar, IconCaretRight, IconCaretLeft } from '@arco-design/web-react/icon';
 import '../static/css/adminIndex.css'
 import { Route } from 'react-router-dom';
 import AddArticle from './AddArticle';
 const MenuItem = Menu.Item;
 const SubMenu = Menu.SubMenu;
-
+const Row = Grid.Row;
+const Col = Grid.Col;
 const Sider = Layout.Sider;
-const Header = Layout.Header;
 const Footer = Layout.Footer;
 const Content = Layout.Content;
 
 function AdminIndex () {
-  const [collapsed,setCollapsed] = useState(false)
-
+  const username =  localStorage.getItem('userName')
+  const [collapsed,setCollapsed] = useState(false);
+  const [userName, setUserName] = useState(username);
+  
   const handleCollapsed = (collapsed) => {
     setCollapsed(collapsed)
   };
@@ -26,7 +28,9 @@ function AdminIndex () {
                trigger={collapsed ? <IconCaretRight /> : <IconCaretLeft />}
                breakpoint='xl'
         >
-          <div className='logo' />
+          <div className='logo'>
+            {collapsed ? '' :"你好"+userName }
+          </div>
           <Menu
             defaultOpenKeys={['1']}
             defaultSelectedKeys={['0_3']}
@@ -60,11 +64,20 @@ function AdminIndex () {
         </Sider>
         <Layout>
           <Layout style={{ padding: '0 24px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
+          <Row>
+            <Col span={18}>
+              <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>后台管理系统</Breadcrumb.Item>
               <Breadcrumb.Item>工作台</Breadcrumb.Item>
-              <Breadcrumb.Item>123</Breadcrumb.Item>
             </Breadcrumb>
+            </Col>
+            <Col  span={3} offset={3}>
+             <Space style={{marginTop:10}}>
+               <Button type='primary'>返回博客页</Button>
+               <Button type='primary'>退出</Button>
+             </Space>
+            </Col>
+          </Row>      
             <Content>
                 <div>
                     <Route path="/index/" exact component={AddArticle}/>
