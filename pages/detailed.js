@@ -56,7 +56,7 @@ const Detailed = (props) => {
                   </Link>
                 </BreadcrumbItem>
                 <BreadcrumbItem>
-                  <Link href="/list">
+                  <Link href={{pathname:'/list',query:{id:props.id}}}>
                     <a>文章列表</a>
                   </Link>
                 </BreadcrumbItem>

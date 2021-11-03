@@ -24,9 +24,31 @@ class MainController extends Controller {
 
     }
 
-    async getTypeInfo(){
+    async getTypeInfo() {
         const res = await this.app.mysql.select('type')
         this.ctx.body={data: res}
+    }
+
+    async addArticle() {
+        let tempArticle = this.ctx.request.body
+        const res = await this.app.mysql.insert('article',tempArticle)
+        const insertSuccess = res.affectedRows === 1
+        const insertId= res.insertId
+
+        this.ctx.body={
+            isSuccess : insertSuccess,
+            insertId : insertId
+        }
+    }
+
+    async updateArticle() {
+        let temArticle = this.ctx.request.body
+
+        const res = await this.app.mysql.update('article',temArticle)
+        const updateSuccess = res.affectedRows === 1
+        this.ctx.body={
+            isSuccess:updateSuccess
+        }
     }
 }
 
