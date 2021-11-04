@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react'
 import { Layout, Menu, Breadcrumb, Button, Message,Grid, Space } from '@arco-design/web-react';
 import { IconHome, IconCalendar, IconCaretRight, IconCaretLeft } from '@arco-design/web-react/icon';
 import '../static/css/adminIndex.css'
-import { Route } from 'react-router-dom';
+import { Route  } from 'react-router-dom';
 import AddArticle from './AddArticle';
+import ArticleList from './ArticleList';
 const MenuItem = Menu.Item;
 const SubMenu = Menu.SubMenu;
 const Row = Grid.Row;
@@ -12,7 +13,7 @@ const Sider = Layout.Sider;
 const Footer = Layout.Footer;
 const Content = Layout.Content;
 
-function AdminIndex () {
+function AdminIndex (props) {
   const username =  localStorage.getItem('userName')
   const [collapsed,setCollapsed] = useState(false);
   const [userName, setUserName] = useState(username);
@@ -20,6 +21,13 @@ function AdminIndex () {
   const handleCollapsed = (collapsed) => {
     setCollapsed(collapsed)
   };
+  const handlerClickArticle=(key)=> {
+    if(key === 'addArticle'){
+      props.history.push('/index')
+    } else if(key === 'articleList') {
+      props.history.push('/index/list')
+    }
+  }
     return (
       <Layout className='layout-collapse-demo' style={{minHeight:'100vh'}}>
         <Sider collapsed={collapsed} 
@@ -32,33 +40,26 @@ function AdminIndex () {
             {collapsed ? '' :"你好"+userName }
           </div>
           <Menu
-            defaultOpenKeys={['1']}
-            defaultSelectedKeys={['0_3']}
-            onClickMenuItem={(key) =>
-              Message.info({ content: `You select ${key}`, showIcon: true })
-            }
-          
             style={{ width: '100%' }}
+            onClickMenuItem={handlerClickArticle}
           >
             <MenuItem key='0_1'>
               <IconHome />
               工作台
             </MenuItem>
-            <MenuItem key='0_2'>
-              <IconCalendar />
-              添加文章
-            </MenuItem>
             <SubMenu
               key='1'
+              // onClick={handlerClickArticle}
               title={
                 <span>
                   <IconCalendar />
                   文章管理
                 </span>
               }
+              {...props}
             >
-              <MenuItem key='1_1'>添加文章</MenuItem>
-              <MenuItem key='1_2'>文章列表</MenuItem>
+              <MenuItem key='addArticle'>添加文章</MenuItem>
+              <MenuItem key='articleList'>文章列表</MenuItem>
             </SubMenu>
           </Menu>
         </Sider>
@@ -78,12 +79,14 @@ function AdminIndex () {
              </Space>
             </Col>
           </Row>      
-            <Content>
-                <div>
-                    <Route path="/index/" exact component={AddArticle}/>
+          <Content>
+                 <div>
+                    <Route path="/" exact component={AddArticle}/>
+                    <Route path="/index" exact component={AddArticle}/>
+                    <Route path="/index/list" exact component={ArticleList}/>
                 </div>
-            </Content>
-            <Footer>Arco Design</Footer>
+          </Content>
+          <Footer>Arco Design</Footer>
           </Layout>
         </Layout>
       </Layout>

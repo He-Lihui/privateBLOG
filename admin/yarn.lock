@@ -5584,7 +5584,7 @@ hex-color-regex@^1.1.0:
 
 history@^4.9.0:
   version "4.10.1"
-  resolved "https://registry.nlark.com/history/download/history-4.10.1.tgz#33371a65e3a83b267434e2b3f3b1b4c58aad4cf3"
+  resolved "https://registry.npmmirror.com/history/download/history-4.10.1.tgz#33371a65e3a83b267434e2b3f3b1b4c58aad4cf3"
   integrity sha1-MzcaZeOoOyZ0NOKz87G0xYqtTPM=
   dependencies:
     "@babel/runtime" "^7.1.2"
@@ -9297,7 +9297,7 @@ react-refresh@^0.8.3:
 
 react-router-dom@^5.3.0:
   version "5.3.0"
-  resolved "https://registry.npmmirror.com/react-router-dom/download/react-router-dom-5.3.0.tgz?cache=0&sync_timestamp=1635150718485&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact-router-dom%2Fdownload%2Freact-router-dom-5.3.0.tgz#da1bfb535a0e89a712a93b97dd76f47ad1f32363"
+  resolved "https://registry.npmmirror.com/react-router-dom/download/react-router-dom-5.3.0.tgz?cache=0&sync_timestamp=1635980430094&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact-router-dom%2Fdownload%2Freact-router-dom-5.3.0.tgz#da1bfb535a0e89a712a93b97dd76f47ad1f32363"
   integrity sha1-2hv7U1oOiacSqTuX3Xb0etHzI2M=
   dependencies:
     "@babel/runtime" "^7.12.13"
@@ -9310,7 +9310,7 @@ react-router-dom@^5.3.0:
 
 react-router@5.2.1:
   version "5.2.1"
-  resolved "https://registry.npmmirror.com/react-router/download/react-router-5.2.1.tgz?cache=0&sync_timestamp=1635150718975&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact-router%2Fdownload%2Freact-router-5.2.1.tgz#4d2e4e9d5ae9425091845b8dbc6d9d276239774d"
+  resolved "https://registry.npmmirror.com/react-router/download/react-router-5.2.1.tgz#4d2e4e9d5ae9425091845b8dbc6d9d276239774d"
   integrity sha1-TS5OnVrpQlCRhFuNvG2dJ2I5d00=
   dependencies:
     "@babel/runtime" "^7.12.13"
