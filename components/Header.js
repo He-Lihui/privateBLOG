@@ -35,7 +35,7 @@ const Header = () =>{
             <Row type="flex" justify="center">
                 <Col  xs={24} sm={24} md={10} lg={10} xl={10}>
                     <span className="header-logo">山火</span>
-                    <span className="header-txt">一句话我还真不知道该怎么形容</span>
+                    <span className="header-txt">这真的是一个非常可爱的宝贝！</span>
                 </Col>
 
                 <Col className="memu-div" xs={0} sm={0} md={14} lg={8} xl={6}>
@@ -55,11 +55,6 @@ const Header = () =>{
                                 )
                             })
                         }
-                        {/* <Menu.Item key="life">
-                            <Icon type="smile"/>
-                            <SmileOutlined className="header-Icon"/>
-                            生活
-                        </Menu.Item> */}
                     </Menu>
                 </Col>
             </Row>

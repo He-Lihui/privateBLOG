@@ -38,6 +38,11 @@ function AddArticle (props) {
 
     useEffect(()=> {
         getTypeInfo()
+        let articleId = props.match.params.Id
+        if(articleId) {
+            setArticleId(articleId)
+            getArticleById(articleId)
+        }
     },[])
 
     const changeContent = (value) => {
@@ -126,6 +131,26 @@ function AddArticle (props) {
             )
         }
     }
+    
+    const getArticleById = (id)=> {
+        Axios(servicePath.getArticleById+id,{
+            withCredentials: true
+        }).then(
+            res=> {
+                let articleInfo = res.data.data[0]
+                console.log(articleInfo)
+                setArticleTitle(articleInfo.title)
+                setArticleContent(articleInfo.content)
+                let html = marked(articleInfo.content)
+                setMarkdownContent(html)
+                setIntroducemd(articleInfo.introduce)
+                let intrhtml = marked(articleInfo.introduce)
+                setIntroducehtml(intrhtml)
+                setShowDate(articleInfo.addTime)
+                setSelectType(articleInfo.typeId)
+            }
+        )
+    }
     return (
         <div>
             <Row gutter={5}>
@@ -141,7 +166,7 @@ function AddArticle (props) {
                             />
                         </Col>
                         <Col span={4}>
-                            <Select defaultValue={selectedType} size="large" onChange={selectTypeHandler}>
+                            <Select defaultValue={selectedType} size="large" value={selectedType} onChange={selectTypeHandler}>
                                 {
                                     typeInfo.map( (item, index) => {
                                         return (
@@ -159,6 +184,7 @@ function AddArticle (props) {
                                 rows={35}
                                 placeholder="在这里记录下你想记录的一切"
                                 onChange={changeContent}
+                                value={articleContent}
                             />
                         </Col>
                         <Col span={12}>
@@ -173,10 +199,7 @@ function AddArticle (props) {
                     <Row>
                         <Col span="24">
                             <Space>
-                                <Button size="large" >暂存文章</Button>
-                                {
-                                console.log(props)
-                                }
+                                <Button size="large"  disabled>暂存文章</Button>
                                  <Button type="primary" size="large" onClick={saveArticle}>{isEditor}</Button> 
                                 <DatePicker
                                  value={showDate}
@@ -192,6 +215,7 @@ function AddArticle (props) {
                              showWordLimit
                              placeholder="简单的介绍一下你这篇文章叭~"
                              onChange={changeIntroduce}
+                             value={introducemd}
                             >
                             </TextArea>
                             <br/>

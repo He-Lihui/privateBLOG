@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import { Button, Space, List, Modal, Message, Grid,Avatar } from '@arco-design/web-react';
+import { Button, Space, List, Modal, Message, Grid } from '@arco-design/web-react';
+import { IconDelete,IconCalendarClock,IconStar } from '@arco-design/web-react/icon';
+
 import axios from 'axios';
 import servicePath from '../config/apiUrl';
 
@@ -9,31 +11,46 @@ const Col = Grid.Col
 function ArticleList(props) {
     const [list,setList] = useState([])
 
-    const names = ['Socrates', 'Balzac', 'Plato'];
+    useEffect(() => {
+      getLsit()
+      console.log(list)
+    }, [])
 
-    const avatarSrc = [
-    '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/a8c8cdb109cb051163646151a4a5083b.png~tplv-uwbnlip3yd-webp.webp',
-    '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/e278888093bef8910e829486fb45dd69.png~tplv-uwbnlip3yd-webp.webp',
-    '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/9eeb1800d9b78349b24682c3518ac4a3.png~tplv-uwbnlip3yd-webp.webp',
-    ];
+    const getLsit = () =>{
+      axios({
+          method:'GET',
+          url: servicePath.getArticleList,
+          withCredentials: true
+      }).then(
+        res => {
+          setList(res.data.list)
+        }
+        )
+    }
+    const delArticle = (id)=> {
+      Modal.confirm({
+        title: 'Confirm deletion',
+        content:
+          'Are you sure you want to delete the selected items? Once you press the delete button, the items will be deleted immediately. You can’t undo this action.',
+        okButtonProps: { status: 'danger' },
+        onOk: () => {
+          axios({
+            url:servicePath.deleteAticle+id,
+            withCredentials:true
+          }).then(
+            res=>{
+              Message.success('文章删除成功！')
+              getLsit()
+            }
+          )
 
-    const imageSrc = [
-    '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/29c1f9d7d17c503c5d7bf4e538cb7c4f.png~tplv-uwbnlip3yd-webp.webp',
-    '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/04d7bc31dd67dcdf380bc3f6aa07599f.png~tplv-uwbnlip3yd-webp.webp',
-    '//p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/1f61854a849a076318ed527c8fca1bbf.png~tplv-uwbnlip3yd-webp.webp',
-    ];
+        },
+      });
+    }
 
-    const dataSource = new Array(15).fill(null).map((_, index) => {
-    return {
-        index: index,
-        avatar: avatarSrc[index % avatarSrc.length],
-        title: names[index % names.length],
-        description:
-        'Beijing ByteDance Technology Co., Ltd. is an enterprise located in China. ByteDance has products such as TikTok, Toutiao, volcano video and Douyin (the Chinese version of TikTok).',
-        imageSrc: imageSrc[index % imageSrc.length],
-    };
-    });
-
+    const updateAricle = (id) => {
+      props.history.push('/index/add/'+ id)
+    }
     return (
         <div>
           <List
@@ -41,9 +58,9 @@ function ArticleList(props) {
     // wrapperStyle={{ maxWidth: 830 }}
     bordered={false}
     pagination={{
-      pageSize: 3,
+      pageSize: 5,
     }}
-    dataSource={dataSource}
+    dataSource={list}
     render={(item, index) => (
       <List.Item
         key={index}
@@ -51,22 +68,38 @@ function ArticleList(props) {
         actionLayout='vertical'
         actions={[
           <span key={2}>
-            typename
+           <IconStar style={{ fontSize: 16, color: '#ffcd00' }} /> {item.typename}
           </span>,
           <span key={3}>
-            addtime
+            <IconCalendarClock /> {item.addTime}
           </span>,
         ]}
         extra={
-            <Space>
-                <Button>编辑</Button>
-                <Button>删除</Button>
+            <Space
+              style={{marginTop:20}}
+            >
+                <Button
+                  size='large'
+                  type='primary'
+                  onClick={() =>{updateAricle(item.id)}}
+                >编辑</Button>
+                <Button
+                onClick={() =>{ delArticle(item.id)}}
+                  icon={<IconDelete />}
+                  size='large'
+                  type='primary'
+                  status='danger'
+                >删除</Button>
             </Space>
         }
       >
         <List.Item.Meta
+        style={{color:'#165DFF',fontSize:20}}
           title={item.title}
-          description={item.description}
+        />
+        <List.Item.Meta  
+          style={{marginRight:20}}
+          description={item.introduce}
         />
       </List.Item>
     )}

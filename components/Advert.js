@@ -5,28 +5,16 @@ const Adver = () => {
         <div className="ad-div comm-box">
             <div> 
             <Image
-                src="https://images.pexels.com/photos/4589729/pexels-photo-4589729.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                src="/../static/img/1.jpg"
                 alt="Landscape picture"
                 width={500}
-                height={200}
+                height={600}
             />
             <Image
-                src="https://images.pexels.com/photos/4589729/pexels-photo-4589729.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                src="/../static/img/2.jpg"
                 alt="Landscape picture"
                 width={500}
-                height={200}
-            />
-            <Image
-                src="https://images.pexels.com/photos/4589729/pexels-photo-4589729.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                alt="Landscape picture"
-                width={500}
-                height={200}
-            />
-            <Image
-                src="https://images.pexels.com/photos/4589729/pexels-photo-4589729.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                alt="Landscape picture"
-                width={500}
-                height={200}
+                height={600}
             />
             </div>
         </div>

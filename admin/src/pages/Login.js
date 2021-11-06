@@ -33,9 +33,6 @@ function Login (props) {
         },500)
         return false
        }
-    const onkeydown = (e)=> {
-        console.log(e.keyCode)
-    }
        let dataProps = {
            'userName': userName,
            'password': password

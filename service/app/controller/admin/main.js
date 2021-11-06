@@ -50,6 +50,44 @@ class MainController extends Controller {
             isSuccess:updateSuccess
         }
     }
+
+    async getArticleList () {
+
+        let sql = 'SELECT article.id as id,'+
+        'article.title as title,'+
+        'article.article_introduce as introduce,'+
+        "FROM_UNIXTIME(article.addTime,'%Y-%m-%d' ) as addTime,"+
+        'type.typename as typename '+
+        'FROM article LEFT JOIN type ON article.type_id = type.Id '+
+        'ORDER BY article.id DESC '
+
+        const resList = await this.app.mysql.query(sql)
+        this.ctx.body={list:resList}
+    }
+
+    async deleteAticle () {
+        let id = this.ctx.params.id
+        const res = await this.app.mysql.delete('article',{'id':id})
+        this.ctx.body = {data:res}
+    }
+
+    async getArticleById () {
+        let id = this.ctx.params.id
+        let sql = 'SELECT article.id as id,'+
+                  'article.title as title,'+
+                  'article.article_introduce as introduce,'+
+                  'article.article_content as content,'+
+                  "FROM_UNIXTIME(article.addTime,'%Y-%m-%d' ) as addTime,"+
+                  'type.typename as typename ,'+
+                  'type.id as typeId '+
+                  'FROM article LEFT JOIN type ON article.type_id = type.Id '+
+                  'WHERE article.id='+id
+
+        const res = await this.app.mysql.query(sql)
+        this.ctx.body={
+            data: res
+        }
+    }
 }
 
 module.exports = MainController

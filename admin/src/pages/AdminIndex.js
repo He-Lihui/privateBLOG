@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Layout, Menu, Breadcrumb, Button, Message,Grid, Space } from '@arco-design/web-react';
+import { Layout, Menu, Breadcrumb, Button, Message,Grid, Space, Modal } from '@arco-design/web-react';
 import { IconHome, IconCalendar, IconCaretRight, IconCaretLeft } from '@arco-design/web-react/icon';
 import '../static/css/adminIndex.css'
 import { Route  } from 'react-router-dom';
@@ -17,16 +17,26 @@ function AdminIndex (props) {
   const username =  localStorage.getItem('userName')
   const [collapsed,setCollapsed] = useState(false);
   const [userName, setUserName] = useState(username);
-  
+  const [visible, setVisible] = useState(false);
   const handleCollapsed = (collapsed) => {
     setCollapsed(collapsed)
   };
   const handlerClickArticle=(key)=> {
     if(key === 'addArticle'){
-      props.history.push('/index')
+      props.history.push('/index/add')
     } else if(key === 'articleList') {
       props.history.push('/index/list')
     }
+  }
+  const logout = () => {
+    props.history.push('/login')
+    localStorage.removeItem('openId')
+    localStorage.removeItem('username')
+  }
+  const goFirstPage = () => {
+    const ip = 'http://localhost'
+    const port = '3300'
+    window.open(`${ip}:${port}`)
   }
     return (
       <Layout className='layout-collapse-demo' style={{minHeight:'100vh'}}>
@@ -74,16 +84,31 @@ function AdminIndex (props) {
             </Col>
             <Col  span={3} offset={3}>
              <Space style={{marginTop:10}}>
-               <Button type='primary'>返回博客页</Button>
-               <Button type='primary'>退出</Button>
+               <Button type='primary' onClick={goFirstPage}>返回博客页</Button>
+               <Button type='primary' onClick={() => setVisible(true)} type='primary'>退出</Button>
+               <Modal
+                  title='退出登录'
+                  visible={visible}
+                  onOk={logout}
+                  onCancel={() => setVisible(false)}
+                  autoFocus={false}
+                  focusLock={true}
+                  okText='yep!'
+                  cancelText="I'm not sure"
+                >
+              <p>
+                 Are you sure ？
+              </p>
+            </Modal>
              </Space>
             </Col>
           </Row>      
           <Content>
                  <div>
-                    <Route path="/" exact component={AddArticle}/>
                     <Route path="/index" exact component={AddArticle}/>
+                    <Route path="/index/add" exact component={AddArticle}/>
                     <Route path="/index/list" exact component={ArticleList}/>
+                    <Route path="/index/add/:Id"  component={AddArticle}/>
                 </div>
           </Content>
           <Footer>Arco Design</Footer>
